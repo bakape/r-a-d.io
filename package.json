@@ -1,0 +1,24 @@
+{
+  "name": "r-a-d.io",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "clean-css-cli": "^4.1.10",
+    "less": "^2.7.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bakape/r-a-d.io.git"
+  },
+  "author": "bakape <scorpid33@gmail.com> (https://github.com/bakape)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bakape/r-a-d.io/issues"
+  },
+  "homepage": "https://github.com/bakape/r-a-d.io#readme"
+}

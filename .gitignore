@@ -1,15 +1,8 @@
-/bootstrap/compiled.php
-/vendor
-composer.phar
 .DS_Store
-.vagrant
 *.sublime-workspace
 *.sublime-project
-Icon*
 .dropbox
 Thumbs.db
 desktop.ini
-.env.php
-.dropbox.attr
-.bower.json
-composer.lock
+node_modules
+r-a-d.io

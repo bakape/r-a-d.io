@@ -2,12 +2,15 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
+	"path/filepath"
 
+	"github.com/bakape/r-a-d.io/templates"
 	"github.com/dimfeld/httptreemux"
 )
+
+// TODO: Config reloading. Probably from JSON config file.
 
 func main() {
 	addr := flag.String("a", ":8010", "server listening address")
@@ -20,7 +23,11 @@ func main() {
 	r.PanicHandler = text500
 
 	r.GET("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "Hello!")
+		w.Write([]byte(templates.Index()))
+	})
+	r.GET("/ass/*path", func(w http.ResponseWriter, r *http.Request) {
+		path := filepath.Join("www", extractParam(r, "path"))
+		http.ServeFile(w, r, filepath.Clean(path))
 	})
 
 	log.Printf("listening on %s\n", *addr)

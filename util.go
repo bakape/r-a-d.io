@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 	"runtime/debug"
+
+	"github.com/dimfeld/httptreemux"
 )
 
 // Text-only 404 response
@@ -30,4 +32,9 @@ func text500(w http.ResponseWriter, r *http.Request, err interface{}) {
 // Log an error together with the client's IP and stack trace
 func logError(r *http.Request, err interface{}) {
 	log.Printf("server: %s\n%s\n", err, debug.Stack())
+}
+
+// Extract URL paramater from request context
+func extractParam(r *http.Request, id string) string {
+	return httptreemux.ContextParams(r.Context())[id]
 }
