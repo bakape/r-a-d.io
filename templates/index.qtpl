@@ -14,7 +14,40 @@ Render landing page
 			<link href="/ass/css/dark.css" rel="stylesheet">
 		</head>
 		<body>
-			Hello
+			<section id="main" class="flex-column">
+				<div id="top-container" class="flex-row margin">
+					<img class="margin" src="/ass/logo.png" alt="R/a/dio">
+					<div class="margin flex-column">
+						<div class="margin flex-row">
+							<div id="title-volume">
+								<img src="/ass/logo_title.png" alt="R/a/dio" style="width: 100% !important; margin-bottom: 15px;">
+							</div>
+							<div class="flex-column">
+								<button class="btn btn-primary btn-block" id="stream-play" style="display: block;">Play Stream</button>
+								<div>
+									OPTIONS?
+								</div>
+							</div>
+						</div>
+						<div class="flex-column">
+							<b id="now-playing">
+								NOW PLAYING
+							</b>
+							<div>
+								PROGRESS
+							</div>
+							<div class="flex-row">
+								<span>LISTENERS</span>
+								<span>TIME</span>
+							</div>
+						</div>
+					</div>
+					<div class="flex-column margin">
+						<img id="dj-image" src="https://r-a-d.io/api/dj-image/18" style="max-height: 180px">
+						<span id="dj-name">Hanyuu-sama<span>
+					</div>
+				<div>
+			</section>
 		</body>
 	</html>
 {% endstripspace %}{% endfunc %}
