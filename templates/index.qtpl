@@ -15,7 +15,7 @@ Render landing page
 		</head>
 		<body>
 			<section id="main" class="flex-column">
-				<div id="top-container" class="flex-row margin">
+				<section id="top-container" class="flex-row margin">
 					<img class="margin" src="/ass/logo.png" alt="R/a/dio">
 					<div class="margin flex-column">
 						<div class="margin flex-row">
@@ -30,23 +30,37 @@ Render landing page
 							</div>
 						</div>
 						<div class="flex-column">
+							{% comment %}
+								TODO: Prepopulate with current data, once we are
+								running with DB access
+							{% endcomment %}
 							<b id="now-playing">
 								NOW PLAYING
 							</b>
 							<div>
 								PROGRESS
 							</div>
-							<div class="flex-row">
-								<span>LISTENERS</span>
-								<span>TIME</span>
-							</div>
+							<span class="flex-row">
+								<span id="listeners" class="flex-center">LISTENERS</span>
+								<span id="time-progress" class="flex-center">TIME</span>
+							</span>
 						</div>
 					</div>
 					<div class="flex-column margin">
 						<img id="dj-image" src="https://r-a-d.io/api/dj-image/18" style="max-height: 180px">
 						<span id="dj-name">Hanyuu-sama<span>
 					</div>
-				<div>
+				</section>
+				<section class="flex-row">
+					<article class="flex-center">
+						<header>Last Played</header>
+						<table id="last-played"></table>
+					</article>
+					<article class="flex-center">
+						<header>Queue</header>
+						<table id="queue"></table>
+					</article>
+				</section>
 			</section>
 		</body>
 	</html>
