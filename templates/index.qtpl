@@ -1,8 +1,8 @@
-
+{% import "github.com/bakape/r-a-d.io/common" %}
 
 Render landing page.
 TODO: Prepopulate with current data from JSON API. Will need ETags.
-{% func Index() %}{% stripspace %}
+{% func Index(data common.API) %}{% stripspace %}
 	<!DOCTYPE html>
 	<html>
 		<head>

@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
 	"path/filepath"
@@ -22,9 +23,7 @@ func main() {
 	}
 	r.PanicHandler = text500
 
-	r.GET("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(templates.Index()))
-	})
+	r.GET("/", serveIndex)
 	r.GET("/ass/*path", func(w http.ResponseWriter, r *http.Request) {
 		path := filepath.Join("www", extractParam(r, "path"))
 		http.ServeFile(w, r, filepath.Clean(path))
@@ -34,4 +33,20 @@ func main() {
 	if err := http.ListenAndServe(*addr, r); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func serveIndex(w http.ResponseWriter, r *http.Request) {
+	apiMu.RLock()
+	data := apiData
+	hash := apiHash
+	apiMu.RUnlock()
+
+	etag := fmt.Sprintf(`W/"%s"`, hash)
+	if etag == r.Header.Get("If-None-Match") {
+		w.WriteHeader(304)
+		return
+	}
+	w.Header().Set("ETag", etag)
+
+	w.Write([]byte(templates.Index(data)))
 }

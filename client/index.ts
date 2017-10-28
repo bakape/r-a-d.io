@@ -4,13 +4,11 @@
 type API = {
 	np: string
 	listeners: number
-	isafkstream: boolean
 	current: number
 	start_time: number
 	end_time: number
 	thread: string
 	requesting: true
-	djname: string
 	dj: {
 		id: number
 		djname: string
@@ -23,8 +21,6 @@ type API = {
 // Song-related data
 type Song = {
 	meta: string
-	time: string // encoded as <time> element
-	type: number
 	timestamp: number
 }
 
@@ -143,7 +139,7 @@ type Song = {
 		}
 
 		if (t < 60) {
-			return isFuture ? "soon" : "just now";
+			return isFuture ? "soon™" : "just now";
 		}
 		t = Math.floor(t / 60);
 		if (t < 60) {
