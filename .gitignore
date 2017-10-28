@@ -8,3 +8,4 @@ node_modules
 r-a-d.io
 www/css
 www/js
+templates/*.qtpl.go
