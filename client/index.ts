@@ -40,11 +40,8 @@ type Song = {
 		image: document.getElementById("dj-image") as HTMLImageElement,
 		name: document.getElementById("dj-name"),
 	};
-	// const lastPlayed = document.getElementById("last-played")
-	// const queue = document.getElementById("queue")
-
-	// Reduce default volume
-	(document.getElementById("stream") as HTMLAudioElement).volume = 0.2;
+	const lastPlayed = document.getElementById("last-played");
+	const queue = document.getElementById("queue");
 
 	// Last fetched API data
 	// TODO: Initial data should be extracted from prerendered page as JSON
@@ -55,6 +52,12 @@ type Song = {
 
 	// Correction for time skew between API server and client
 	let skew = 0;
+
+	// Reduce default volume
+	(document.getElementById("stream") as HTMLAudioElement).volume = 0.2;
+
+	fetchData();
+	setInterval(renderProgress, 1000);
 
 	function fetchData() {
 		const xhr = new XMLHttpRequest()
@@ -79,6 +82,22 @@ type Song = {
 		dj.image.src = "https://r-a-d.io/api/dj-image/" + data.dj.djimage;
 		dj.name.textContent = data.dj.djname;
 		renderProgress();
+
+		let html = "";
+		for (let { timestamp, meta } of data.lp) {
+			html += `<tr>`
+				+ `<td>${renderTime(timestamp)}</td><td>${meta}</td>`
+				+ `</tr>`;
+		}
+		lastPlayed.innerHTML = html;
+
+		html = "";
+		for (let { timestamp, meta } of data.queue) {
+			html += `<tr>`
+				+ `<td>${meta}</td><td>${renderTime(timestamp)}</td>`
+				+ `</tr>`;
+		}
+		queue.innerHTML = html;
 	}
 
 	function renderProgress() {
@@ -114,6 +133,40 @@ type Song = {
 		return `${pad(Math.floor(n / 60))}:${pad(n % 60)}`;
 	}
 
-	fetchData();
-	setInterval(renderProgress, 1000);
+	// Renders readable elapsed/remaining time
+	function renderTime(t: number): string {
+		t = Math.floor(now() - t);
+		let isFuture = false;
+		if (t < 1) {
+			isFuture = true;
+			t = -t;
+		}
+
+		if (t < 60) {
+			return isFuture ? "soon" : "just now";
+		}
+		t = Math.floor(t / 60);
+		if (t < 60) {
+			return ago(t, "minute", isFuture);
+		}
+		return ago(Math.floor(t / 60), "hour", isFuture);
+	}
+
+	// Return either the singular or plural form of a word, depending on n
+	function pluralize(n: number, word: string): string {
+		let s = `${n} ${word}`;
+		if (n !== 1 && n !== -1) {
+			s += "s";
+		}
+		return s;
+	}
+
+	// Renders "56 minutes ago" or "in 56 minutes" like relative time text
+	function ago(time: number, word: string, isFuture: boolean, ): string {
+		const count = pluralize(time, word)
+		if (isFuture) {
+			return `in ${count}`
+		}
+		return `${count} ago`
+	}
 })();
