@@ -1,6 +1,7 @@
 
 
-Render landing page
+Render landing page.
+TODO: Prepopulate with current data from JSON API. Will need ETags.
 {% func Index() %}{% stripspace %}
 	<!DOCTYPE html>
 	<html>
@@ -20,28 +21,23 @@ Render landing page
 					<div class="margin flex-column">
 						<div class="margin flex-row">
 							<div id="title-volume">
-								<img src="/ass/logo_title.png" alt="R/a/dio" style="width: 100% !important; margin-bottom: 15px;">
+								<img src="/ass/logo_title.png" alt="R/a/dio">
 							</div>
 							<div class="flex-column">
-								<button class="btn btn-primary btn-block" id="stream-play" style="display: block;">Play Stream</button>
+								<button class="btn btn-primary btn-block" id="stream-play">Play Stream</button>
 								<div>
 									OPTIONS?
 								</div>
 							</div>
 						</div>
 						<div class="flex-column">
-							{% comment %}
-								TODO: Prepopulate with current data, once we are
-								running with DB access
-							{% endcomment %}
 							<b id="now-playing">
 								NOW PLAYING
 							</b>
-							<div>
-								PROGRESS
+							<progress id="progress-bar" class="full-width">
 							</div>
 							<span class="flex-row">
-								<span id="listeners" class="flex-center">LISTENERS</span>
+								<span id="listeners" class="flex-center">Listeners: 0</span>
 								<span id="time-progress" class="flex-center">TIME</span>
 							</span>
 						</div>
@@ -62,6 +58,7 @@ Render landing page
 					</article>
 				</section>
 			</section>
+			<script src="/ass/js/index.js"></script>
 		</body>
 	</html>
 {% endstripspace %}{% endfunc %}
