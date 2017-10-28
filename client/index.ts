@@ -40,8 +40,11 @@ type Song = {
 		image: document.getElementById("dj-image") as HTMLImageElement,
 		name: document.getElementById("dj-name"),
 	}
-	// const lastPlayed = document.getElementById("last-played")
-	// const queue = document.getElementById("queue")
+		// const lastPlayed = document.getElementById("last-played")
+		// const queue = document.getElementById("queue")
+
+		// Reduce default volume
+		; (document.getElementById("stream") as HTMLAudioElement).volume = 0.2;
 
 	// Last fetched API data
 	// TODO: Initial data should be extracted from prerendered page as JSON

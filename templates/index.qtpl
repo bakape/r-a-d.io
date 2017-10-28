@@ -24,7 +24,7 @@ TODO: Prepopulate with current data from JSON API. Will need ETags.
 								<img src="/ass/logo_title.png" alt="R/a/dio">
 							</div>
 							<div class="flex-column">
-								<button class="btn btn-primary btn-block" id="stream-play">Play Stream</button>
+								<audio id="stream" src="https://stream.r-a-d.io/main.mp3" controls volume=0.2></audio>
 								<div>
 									OPTIONS?
 								</div>
