@@ -60,9 +60,6 @@ type Song = {
 				data = xhr.response.main
 				skew = now() - data.current
 				render()
-				if (!nextFetch) { // First fetch
-					setInterval(renderProgress, 1000)
-				}
 			}
 			nextFetch = setTimeout(fetchData, 10000)
 		}
@@ -82,11 +79,21 @@ type Song = {
 	}
 
 	function renderProgress() {
+		// Not yet fetched
+		if (!data) {
+			return
+		}
+
 		const delta = data.end_time - data.start_time
 		const prog = now() - skew - data.start_time
 		progress.time.textContent
 			= `${formatDuration(prog)} / ${formatDuration(delta)}`
 		progress.bar.value = prog / delta
+		if (prog > delta) { // Data is stale
+			clearTimeout(nextFetch)
+			nextFetch = 0
+			fetchData()
+		}
 	}
 
 	// Return current Unix time
@@ -105,4 +112,5 @@ type Song = {
 	}
 
 	fetchData()
+	setInterval(renderProgress, 1000)
 })()

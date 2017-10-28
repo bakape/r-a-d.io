@@ -10,11 +10,10 @@ server:
 	go generate ./...
 	go build -v
 
-
-#TODO: Minification and sourcemaps
 client:
 	mkdir -p www/js
 	node_modules/.bin/tsc -p client --outdir www/js
+	$(foreach i, $(wildcard www/js/*), node_modules/.bin/uglifyjs -o $i $i)
 
 css:
 	$(MAKE) -C less
