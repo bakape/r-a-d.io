@@ -1,4 +1,5 @@
 {% import "github.com/bakape/r-a-d.io/common" %}
+{% import "time" %}
 
 Render landing page.
 TODO: Prepopulate with current data from JSON API. Will need ETags.
@@ -11,7 +12,6 @@ TODO: Prepopulate with current data from JSON API. Will need ETags.
 			<link rel="shortcut icon" href="/ass/favicon.ico">
 			<title>R/a/dio</title>
 			<link href="/ass/css/base.css" rel="stylesheet">
-			{% comment %} TODO: Load DJ Theme based on config {% endcomment %}
 			<link href="/ass/css/dark.css" rel="stylesheet">
 		</head>
 		<body>
@@ -31,30 +31,50 @@ TODO: Prepopulate with current data from JSON API. Will need ETags.
 							</div>
 						</div>
 						<div class="flex-column">
-							<b id="now-playing">
-								NOW PLAYING
-							</b>
-							<progress id="progress-bar" class="full-width">
+							{% code delta := data.EndTime - data.StartTime %}
+							{% code prog := time.Now().Unix() - data.StartTime %}
+							<b id="now-playing">{%s data.NowPlaying %}</b>
+							<progress id="progress-bar" class="full-width" value="{%f float64(prog) / float64(delta) %}">
 							</div>
 							<span class="flex-row">
-								<span id="listeners" class="flex-center">Listeners: 0</span>
-								<span id="time-progress" class="flex-center">TIME</span>
+								<span id="listeners" class="flex-center">
+									Listeners:{% space %}{%d data.Listeners %}
+								</span>
+								<span id="time-progress" class="flex-center">
+									{%s= formatDuration(prog) %}
+									{% space %}/{% space %}
+									{%s= formatDuration(delta) %}
+								</span>
 							</span>
 						</div>
 					</div>
 					<div class="flex-column margin">
-						<img id="dj-image" src="https://r-a-d.io/api/dj-image/18" style="max-height: 180px">
-						<span id="dj-name">Hanyuu-sama<span>
+						<img id="dj-image" src="https://r-a-d.io/api/dj-image/{%s data.DJ.Image %}">
+						<span id="dj-name">{%s data.DJ.Name %}<span>
 					</div>
 				</section>
 				<section class="flex-row">
 					<article class="flex-center">
 						<header>Last Played</header>
-						<table id="last-played"></table>
+						<table id="last-played">
+							{% for _, s  := range data.LastPlayed %}
+								<tr>
+									<td>{%s= renderTime(s.Timestamp) %}</td>
+									<td>{%s s.Meta %}</td>
+								</tr>
+							{% endfor %}
+						</table>
 					</article>
 					<article class="flex-center">
 						<header>Queue</header>
-						<table id="queue"></table>
+						<table id="queue">
+							{% for _, s  := range data.Queue %}
+								<tr>
+									<td>{%s s.Meta %}</td>
+									<td>{%s= renderTime(s.Timestamp) %}</td>
+								</tr>
+							{% endfor %}
+						</table>
 					</article>
 				</section>
 			</section>

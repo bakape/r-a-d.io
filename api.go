@@ -28,7 +28,9 @@ func init() {
 	go func() {
 		for {
 			var (
-				data    common.API
+				data struct {
+					Main common.API
+				}
 				buf     []byte
 				hashBuf [16]byte
 				hash    string
@@ -53,7 +55,7 @@ func init() {
 
 			apiMu.Lock()
 			apiHash = hash
-			apiData = data
+			apiData = data.Main
 			apiMu.Unlock()
 
 		next:
