@@ -8,13 +8,27 @@ TODO: Prepopulate with current data from JSON API. Will need ETags.
 	<html>
 		<head>
 			<meta charset="utf-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<link rel="shortcut icon" href="/ass/favicon.ico">
 			<title>R/a/dio</title>
 			<link href="/ass/css/base.css" rel="stylesheet">
 			<link href="/ass/css/dark.css" rel="stylesheet">
 		</head>
 		<body>
+			<nav id="top-banner">
+				{% for _, l  := range [...][2]string{
+					{"Main", ""},
+					{"Search", "search"},
+					{"Favourites", "faves"},
+					{"Submit", "submit"},
+				} %}
+					<a href="/{%s= l[1] %}">
+						{%s= l[0] %}
+					</a>
+				{% endfor %}
+				<form action="/search" method="get">
+					<input type="search" placeholder="Search songs" required name="q">
+				<form>
+			</nav>
 			<section id="main" class="flex-column">
 				<section id="top-container" class="flex-row margin">
 					<img class="margin" src="/ass/logo.png" alt="R/a/dio">
