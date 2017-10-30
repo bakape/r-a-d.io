@@ -1,0 +1,29 @@
+
+Render search page
+{% func Search() %}{% stripspace %}
+	<!DOCTYPE html>
+	<html>
+		{%= head("R/a/dio") %}
+		<body>
+			{%= topBanner() %}
+			{% comment %} TODO: Make responsive {% endcomment %}
+			<table>
+				<tr>
+					<th>Artist</th>
+					<th>Title</th>
+					<th>Request</th>
+				</tr>
+				<tr>
+					<td>Artist here</td>
+					<td>Title here</td>
+					<td>
+						<form act="/request/ID_HERE" method="post">
+							{% comment %} Disable, if can't request {% endcomment %}
+							<input type="submit" value="Request">
+						</form>
+					</td>
+				</tr>
+			</table>
+		</body>
+	</html>
+{% endstripspace %}{% endfunc %}

@@ -1,0 +1,32 @@
+
+
+Render page head element
+{% func head(title string) %}{% stripspace %}
+	<head>
+		<meta charset="utf-8">
+		<link rel="shortcut icon" href="/ass/favicon.ico">
+		<title>{%s title %}</title>
+		<link href="/ass/css/base.css" rel="stylesheet">
+		<link href="/ass/css/dark.css" rel="stylesheet">
+	</head>
+{% endstripspace %}{% endfunc %}
+
+
+Render top banner
+{% func topBanner() %}{% stripspace %}
+	<nav id="top-banner">
+		{% for _, l  := range [...][2]string{
+			{"Main", ""},
+			{"Search", "search"},
+			{"Favourites", "faves"},
+			{"Submit", "submit"},
+		} %}
+			<a href="/{%s= l[1] %}">
+				{%s= l[0] %}
+			</a>
+		{% endfor %}
+		<form action="/search" method="get">
+			<input type="search" placeholder="Search songs" required name="q">
+		</form>
+	</nav>
+{% endstripspace %}{% endfunc %}

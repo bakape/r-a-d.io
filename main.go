@@ -24,6 +24,7 @@ func main() {
 	r.PanicHandler = text500
 
 	r.GET("/", serveIndex)
+	r.GET("/search", serveSearch)
 	r.GET("/ass/*path", func(w http.ResponseWriter, r *http.Request) {
 		path := filepath.Join("www", extractParam(r, "path"))
 		http.ServeFile(w, r, filepath.Clean(path))
@@ -49,4 +50,8 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("ETag", etag)
 
 	w.Write([]byte(templates.Index(data)))
+}
+
+func serveSearch(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte(templates.Search()))
 }
