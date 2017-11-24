@@ -14,7 +14,7 @@ Render page head element
 
 Render top banner
 {% func topBanner() %}{% stripspace %}
-	<nav id="top-banner">
+	<nav id="top-banner" class="flex-row">
 		{% for _, l  := range [...][2]string{
 			{"Main", ""},
 			{"Search", "search"},

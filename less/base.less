@@ -4,7 +4,7 @@
 }
 
 .flex-column {
-    display: flex;
+    position: flex;
     flex-direction: column;
 }
 
@@ -44,12 +44,17 @@
 }
 
 #top-banner {
-    display: fixed;
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    top: 0;
+    padding: 0.5em;
     & > a {
-        margin-left: 1em;
+        margin-left: 0.5em;
     }
     & > form {
-        float: right;
-        display: inline;
+        margin-left: auto;
+        padding-right: 1em;
     }
 }

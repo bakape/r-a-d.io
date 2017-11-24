@@ -19,6 +19,7 @@
 
 body {
   background-color: @color0;
+  font-family: Tahoma, Geneva, sans-serif;
 }
 
 code {
@@ -29,7 +30,19 @@ code {
   margin-top: 1em;
 }
 
+#top-banner {
+  background: #2A2A2A;
+}
+
 ::-webkit-media-controls-current-time-display,
 ::-webkit-media-controls-time-remaining-display {
   color: @color2;
+}
+
+a {
+  color: #787878;
+  &::hover {
+    color: #aaaaaa;
+  }
+  text-decoration: none !important;
 }
