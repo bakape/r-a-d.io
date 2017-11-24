@@ -28,7 +28,9 @@ TODO: Prepopulate with current data from JSON API. Will need ETags.
 							{% code delta := data.EndTime - data.StartTime %}
 							{% code prog := time.Now().Unix() - data.StartTime %}
 							<b id="now-playing">{%s data.NowPlaying %}</b>
-							<progress id="progress-bar" class="full-width" value="{%f float64(prog) / float64(delta) %}">
+							<div id="progress-bar" class="full-width">
+								<div id="progress-bar-inner" style="width:{%f float64(prog) / float64(delta) * 100 %}%;"></div>
+							</div>
 							</div>
 							<span class="flex-row">
 								<span id="listeners" class="flex-center">

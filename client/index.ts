@@ -30,7 +30,7 @@ type Song = {
 	const listeners = document.getElementById("listeners");
 	const progress = {
 		time: document.getElementById("time-progress"),
-		bar: document.getElementById("progress-bar") as HTMLProgressElement,
+		bar: document.getElementById("progress-bar-inner"),
 	};
 	const dj = {
 		image: document.getElementById("dj-image") as HTMLImageElement,
@@ -106,7 +106,7 @@ type Song = {
 		const prog = now() - skew - data.start_time;
 		progress.time.textContent
 			= `${formatDuration(prog)} / ${formatDuration(delta)}`;
-		progress.bar.value = delta ? prog / delta : 0;
+		progress.bar.style.width = (delta ? prog / delta : 0) * 100 + "%";
 		if (prog > delta) { // Data is stale
 			clearTimeout(nextFetch);
 			nextFetch = 0;
