@@ -106,7 +106,7 @@ type Song = {
 		const prog = now() - skew - data.start_time;
 		progress.time.textContent
 			= `${formatDuration(prog)} / ${formatDuration(delta)}`;
-		progress.bar.style.width = (delta ? prog / delta : 0) * 100 + "%";
+		progress.bar.style.width = prog / (delta || prog) * 100 + "%";
 		if (prog > delta) { // Data is stale
 			clearTimeout(nextFetch);
 			nextFetch = 0;
