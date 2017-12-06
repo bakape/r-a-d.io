@@ -160,26 +160,16 @@ type Song = {
 		}
 		t = Math.floor(t / 60);
 		if (t < 60) {
-			return ago(t, "minute", isFuture);
+			return ago(t, "min", isFuture);
 		}
-		return ago(Math.floor(t / 60), "hour", isFuture);
-	}
-
-	// Return either the singular or plural form of a word, depending on n
-	function pluralize(n: number, word: string): string {
-		let s = `${n} ${word}`;
-		if (n !== 1 && n !== -1) {
-			s += "s";
-		}
-		return s;
+		return ago(Math.floor(t / 60), "h", isFuture);
 	}
 
 	// Renders "56 minutes ago" or "in 56 minutes" like relative time text
 	function ago(time: number, word: string, isFuture: boolean, ): string {
-		const count = pluralize(time, word)
 		if (isFuture) {
-			return `in ${count}`
+			return `in ${time} ${word}`
 		}
-		return `${count} ago`
+		return `${time} ${word} ago`
 	}
 })();
