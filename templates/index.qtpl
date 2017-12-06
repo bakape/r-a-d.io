@@ -40,7 +40,7 @@ TODO: Prepopulate with current data from JSON API. Will need ETags.
 						</div>
 					</div>
 					<div id="dj-container" class="flex-column margin">
-						<img id="dj-image" src="https://r-a-d.io/api/dj-image/{%s data.DJ.Image %}">
+						<img id="dj-image" class="round-corners" src="https://r-a-d.io/api/dj-image/{%s data.DJ.Image %}">
 						<span id="dj-name" class="flex-center">
 							{%s data.DJ.Name %}
 						<span>
