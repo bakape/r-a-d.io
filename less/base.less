@@ -1,11 +1,31 @@
 .flex-row {
     display: flex;
     flex-direction: row;
+    &:not(nav) {
+        & > *:first-child {
+            margin-right: auto;
+        }
+        & > *:not(:first-child):not(:last-child) {
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+        & > *:last-child {
+            margin-left: auto;
+        }
+    }
 }
 
 .flex-column {
-    position: flex;
+    display: flex;
     flex-direction: column;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.flex-center {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .margin {
@@ -60,5 +80,39 @@
     & > form {
         margin-left: auto;
         padding-right: 1em;
+    }
+}
+
+article {
+    header {
+        font-weight: bold;
+        font-size: 150%;
+        text-align: center;
+    }
+    table {
+        padding: 0.5em;
+    }
+}
+
+.round-corners {
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+@media (max-width: 850px) {
+    .flex-row {
+        flex-direction: column;
+        & > * {
+            margin: auto;
+        }
+    }
+    #logo {
+        display: none;
+    }
+    #dj-image {
+        max-height: 17vh;
+    }
+    #top-banner {
+        position: initial;
     }
 }

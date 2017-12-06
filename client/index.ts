@@ -56,17 +56,18 @@ type Song = {
 	setInterval(renderProgress, 1000);
 
 	function fetchData() {
-		const xhr = new XMLHttpRequest()
+		const xhr = new XMLHttpRequest();
+		const again = () =>
+			nextFetch = setTimeout(fetchData, 10000);
 		xhr.onload = () => {
 			if (xhr.status === 200) {
 				data = xhr.response.main;
 				skew = now() - data.current;
 				render();
 			}
-			nextFetch = setTimeout(fetchData, 10000);
+			again();
 		}
-		xhr.onerror = () =>
-			nextFetch = setTimeout(fetchData, 10000);
+		xhr.onerror = again;
 		xhr.responseType = "json";
 		xhr.open("GET", "https://r-a-d.io/api");
 		xhr.send();
@@ -82,7 +83,8 @@ type Song = {
 		let html = "";
 		for (let { timestamp, meta } of data.lp) {
 			html += `<tr>`
-				+ `<td>${renderTime(timestamp)}</td><td>${meta}</td>`
+				+ `<td width="20%">${renderTime(timestamp)}</td>`
+				+ `<td>${escape(meta)}</td>`
 				+ `</tr>`;
 		}
 		lastPlayed.innerHTML = html;
@@ -90,10 +92,25 @@ type Song = {
 		html = "";
 		for (let { timestamp, meta } of data.queue) {
 			html += `<tr>`
-				+ `<td>${meta}</td><td>${renderTime(timestamp)}</td>`
+				+ `<td>${escape(meta)}</td>`
+				+ `<td width="20%">${renderTime(timestamp)}</td>`
 				+ `</tr>`;
 		}
 		queue.innerHTML = html;
+	}
+
+	// Escape a user-submitted unsafe string to protect against XSS.
+	function escape(str: string): string {
+		const escapeMap: { [key: string]: string } = {
+			'&': '&amp;',
+			'<': '&lt;',
+			'>': '&gt;',
+			'"': '&quot;',
+			"'": '&#x27;',
+			'`': '&#x60;',
+		};
+		return str.replace(/[&<>'"`]/g, char =>
+			escapeMap[char]);
 	}
 
 	function renderProgress() {

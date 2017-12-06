@@ -11,28 +11,20 @@ TODO: Prepopulate with current data from JSON API. Will need ETags.
 			{%= topBanner() %}
 			<section id="main" class="flex-column">
 				<section id="top-container" class="flex-row margin">
-					<img class="margin" src="/ass/logo.png" alt="R/a/dio">
-					<div class="margin flex-column">
-						<div class="margin flex-row">
-							<div id="title-volume">
-								<img src="/ass/logo_title.png" alt="R/a/dio">
-							</div>
-							<div class="flex-column">
-								<audio id="stream" src="https://stream.r-a-d.io/main.mp3" controls volume=0.2></audio>
-								<div>
-									OPTIONS?
-								</div>
-							</div>
-						</div>
+					<img id="logo" class="margin" src="/ass/logo.png" alt="R/a/dio">
+					<div id="now-playing-container" class="margin flex-column">
+						<audio id="stream" class="flex-center" src="https://stream.r-a-d.io/main.mp3" controls volume=0.2></audio>
 						<div class="flex-column">
 							{% code delta := data.EndTime - data.StartTime %}
 							{% code prog := time.Now().Unix() - data.StartTime %}
-							<b id="now-playing">{%s data.NowPlaying %}</b>
-							<div id="progress-bar" class="full-width">
+							<b id="now-playing" class="flex-center">
+								{%s data.NowPlaying %}
+							</b>
+							<div id="progress-bar" class="full-width round-corners">
 								{% if delta == 0 %}
 									{% code delta = prog %}
 								{% endif %}
-								<div id="progress-bar-inner" style="width:{%f float64(prog) / float64(delta) * 100 %}%;"></div>
+								<div id="progress-bar-inner" class="round-corners" style="width:{%f float64(prog) / float64(delta) * 100 %}%;"></div>
 							</div>
 							</div>
 							<span class="flex-row">
@@ -47,30 +39,40 @@ TODO: Prepopulate with current data from JSON API. Will need ETags.
 							</span>
 						</div>
 					</div>
-					<div class="flex-column margin">
+					<div id="dj-container" class="flex-column margin">
 						<img id="dj-image" src="https://r-a-d.io/api/dj-image/{%s data.DJ.Image %}">
-						<span id="dj-name">{%s data.DJ.Name %}<span>
+						<span id="dj-name" class="flex-center">
+							{%s data.DJ.Name %}
+						<span>
 					</div>
 				</section>
 				<section class="flex-row">
-					<article class="flex-center">
+					<article class="flex-center margin">
 						<header>Last Played</header>
-						<table id="last-played">
+						<table id="last-played" class="round-corners">
 							{% for _, s  := range data.LastPlayed %}
 								<tr>
-									<td>{%s= renderTime(s.Timestamp) %}</td>
-									<td>{%s s.Meta %}</td>
+									<td width="20%">
+										{%s= renderTime(s.Timestamp) %}
+									</td>
+									<td>
+										{%s s.Meta %}
+									</td>
 								</tr>
 							{% endfor %}
 						</table>
 					</article>
-					<article class="flex-center">
+					<article class="flex-center margin">
 						<header>Queue</header>
-						<table id="queue">
+						<table id="queue" class="round-corners">
 							{% for _, s  := range data.Queue %}
 								<tr>
-									<td>{%s s.Meta %}</td>
-									<td>{%s= renderTime(s.Timestamp) %}</td>
+									<td>
+										{%s s.Meta %}
+									</td>
+									<td width="20%">
+										{%s= renderTime(s.Timestamp) %}
+									</td>
 								</tr>
 							{% endfor %}
 						</table>
