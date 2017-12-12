@@ -1,6 +1,6 @@
 
 Render search page
-{% func Search() %}{% stripspace %}
+{% func Search(buf []byte) %}{% stripspace %}
 	<!DOCTYPE html>
 	<html>
 		{%= head("R/a/dio") %}
@@ -24,6 +24,7 @@ Render search page
 					</td>
 				</tr>
 			</table>
+			{%z= buf %}
 		</body>
 	</html>
 {% endstripspace %}{% endfunc %}

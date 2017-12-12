@@ -17,6 +17,11 @@ func main() {
 	addr := flag.String("a", ":8010", "server listening address")
 	flag.Parse()
 
+	if err := initElastic(); err != nil {
+		// So you can still test some things without elastic running
+		log.Println(err)
+	}
+
 	r := httptreemux.NewContextMux()
 	r.NotFoundHandler = func(w http.ResponseWriter, _ *http.Request) {
 		text404(w)
@@ -50,8 +55,4 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("ETag", etag)
 
 	w.Write([]byte(templates.Index(data)))
-}
-
-func serveSearch(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte(templates.Search()))
 }
