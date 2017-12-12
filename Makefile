@@ -7,6 +7,7 @@ install_deps:
 	npm update
 
 server:
+	rm -f templates/*.qtpl.go
 	go generate ./...
 	go build -v
 
