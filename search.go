@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -20,7 +21,9 @@ func initElastic() (err error) {
 }
 
 // Query Elastic Search for matching songs
-func querySearch(query string, page int) (buf []byte, err error) {
+func querySearch(query string, page int, ctx context.Context) (
+	buf []byte, err error,
+) {
 	// Testing without ES running
 	if elasticClient == nil {
 		return []byte("TEST: no search possible"), nil
@@ -45,7 +48,7 @@ func querySearch(query string, page int) (buf []byte, err error) {
 		).
 		From(page * 20).
 		Size(20).
-		Do(nil)
+		Do(ctx)
 	if err != nil {
 		return
 	}
@@ -57,7 +60,7 @@ func querySearch(query string, page int) (buf []byte, err error) {
 func serveSearch(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 	page, _ := strconv.ParseUint(q.Get("page"), 10, 64)
-	buf, err := querySearch(q.Get("q"), int(page))
+	buf, err := querySearch(q.Get("q"), int(page), r.Context())
 	if err != nil {
 		text500(w, r, err)
 		return
