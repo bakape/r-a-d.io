@@ -8,7 +8,7 @@ TODO: Prepopulate with current data from JSON API. Will need ETags.
 	<html>
 		{%= head("R/a/dio") %}
 		<body>
-			{%= topBanner() %}
+			{%= topBanner("") %}
 			<section id="main" class="flex-column">
 				<section id="top-container" class="flex-row margin">
 					<img id="logo" class="margin" src="/ass/logo.png" alt="R/a/dio">

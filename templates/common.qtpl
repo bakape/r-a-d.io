@@ -13,7 +13,7 @@ Render page head element
 
 
 Render top banner
-{% func topBanner() %}{% stripspace %}
+{% func topBanner(searchQuery string) %}{% stripspace %}
 	<nav id="top-banner" class="flex-row">
 		{% for _, l  := range [...][2]string{
 			{"Main", ""},
@@ -26,7 +26,7 @@ Render top banner
 			</a>
 		{% endfor %}
 		<form action="/search" method="get">
-			<input type="search" placeholder="Search songs" required name="q">
+			<input type="search" value="{%s searchQuery %}" placeholder="Search songs" required name="q">
 		</form>
 	</nav>
 {% endstripspace %}{% endfunc %}

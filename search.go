@@ -60,11 +60,12 @@ func querySearch(query string, page int, ctx context.Context) (
 func serveSearch(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 	page, _ := strconv.ParseUint(q.Get("page"), 10, 64)
-	buf, err := querySearch(q.Get("q"), int(page), r.Context())
+	query := q.Get("q")
+	buf, err := querySearch(query, int(page), r.Context())
 	if err != nil {
 		text500(w, r, err)
 		return
 	}
 
-	w.Write([]byte(templates.Search(buf)))
+	w.Write([]byte(templates.Search(query, buf)))
 }

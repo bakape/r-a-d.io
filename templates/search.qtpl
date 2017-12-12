@@ -1,11 +1,11 @@
 
 Render search page
-{% func Search(buf []byte) %}{% stripspace %}
+{% func Search(query string, buf []byte) %}{% stripspace %}
 	<!DOCTYPE html>
 	<html>
 		{%= head("R/a/dio") %}
 		<body>
-			{%= topBanner() %}
+			{%= topBanner(query) %}
 			{% comment %} TODO: Make responsive {% endcomment %}
 			<table>
 				<tr>
