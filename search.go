@@ -21,6 +21,11 @@ func initElastic() (err error) {
 
 // Query Elastic Search for matching songs
 func querySearch(query string, page int) (buf []byte, err error) {
+	// Testing without ES running
+	if elasticClient == nil {
+		return []byte("TEST: no search possible"), nil
+	}
+
 	q := elastic.NewQueryStringQuery(query).
 		DefaultOperator("AND")
 	for _, s := range [...]string{"title", "artist", "album", "tags", "_id"} {
