@@ -51,11 +51,7 @@ func querySearch(query string, page int) (buf []byte, err error) {
 // Serve search result page
 func serveSearch(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
-	page, err := strconv.ParseUint(q.Get("page"), 10, 64)
-	if err != nil {
-		text400(w, err)
-		return
-	}
+	page, _ := strconv.ParseUint(q.Get("page"), 10, 64)
 	buf, err := querySearch(q.Get("q"), int(page))
 	if err != nil {
 		text500(w, r, err)
