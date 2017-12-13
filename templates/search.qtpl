@@ -19,14 +19,14 @@ Render search page
 						<hr>
 					{% endif %}
 					<div class=flex-row>
-						<span>s.Artist</span>
-						<span>s.Title</span>
+						<span>{%s s.Artist %}</span>
+						<span>{%s s.Title %}</span>
 						{% code var text string %}
 						{% code can := s.CanRequest() %}
 						{% if can %}
 							{% code text = "Request" %}
 						{% else %}
-							{% code text = "in " + s.RequestDelay.String() %}
+							{% code text = "Requestable " + formatRelativeTime(s.RequestDelay, true) %}
 						{% endif %}
 						<form act="/request/{%d s.ID %}" method=post>
 							<input type=submit value="{%s= text %}"{% if !can %}{% space %}disabled{% endif %}>

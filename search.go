@@ -76,6 +76,8 @@ func querySearch(query string, page int, ctx context.Context) (
 
 // Serve search result page
 func serveSearch(w http.ResponseWriter, r *http.Request) {
+	// TODO: Request cooldown
+
 	q := r.URL.Query()
 	page, _ := strconv.ParseUint(q.Get("page"), 10, 64)
 	query := q.Get("q")

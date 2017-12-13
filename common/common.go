@@ -31,13 +31,13 @@ type Song struct {
 
 // Song returned by Elastic Search
 type SearchSong struct {
-	ID            int           `json:"id"`
-	Requests      int           `json:"requests"`
-	LastRequested int64         `json:"lastrequested"`
-	LastPlayed    int64         `json:"lastplayed"`
-	RequestDelay  time.Duration `json:"-"`
-	Artist        string        `json:"artist"`
-	Title         string        `json:"title"`
+	ID            int    `json:"id"`
+	Requests      int    `json:"requests"`
+	LastRequested int64  `json:"lastrequested"`
+	LastPlayed    int64  `json:"lastplayed"`
+	RequestDelay  int64  `json:"-"`
+	Artist        string `json:"artist"`
+	Title         string `json:"title"`
 }
 
 // Calculate request delay and requestability for a song
@@ -53,11 +53,11 @@ func (s *SearchSong) CalculateRequestDelay() {
 	} else {
 		dur = 599955*math.Exp(0.0372*float64(s.Requests)) + 0.5
 	}
-	s.RequestDelay = time.Duration(time.Duration(dur) * time.Second)
+	s.RequestDelay = int64(dur)
 }
 
 // Return, if song can be requested
 func (s *SearchSong) CanRequest() bool {
 	s.CalculateRequestDelay()
-	return time.Now().Unix()-s.LastPlayed > int64(s.RequestDelay/time.Second)
+	return time.Now().Unix()-s.LastPlayed > s.RequestDelay
 }
