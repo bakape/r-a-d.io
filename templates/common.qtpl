@@ -26,7 +26,7 @@ Render top banner
 			</a>
 		{% endfor %}
 		<form action="/search" method="get">
-			<input type="search" value="{%s searchQuery %}" placeholder="Search songs" required name="q">
+			<input type=search value="{%s searchQuery %}" placeholder="Search songs" required name=q class=round-corners>
 		</form>
 	</nav>
 {% endstripspace %}{% endfunc %}
