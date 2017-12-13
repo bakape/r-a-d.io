@@ -1,5 +1,10 @@
 package common
 
+import (
+	"math"
+	"time"
+)
+
 // Data retrieved from the JSON API
 type API struct {
 	Requesting  bool   `json:"requesting"`
@@ -26,7 +31,33 @@ type Song struct {
 
 // Song returned by Elastic Search
 type SearchSong struct {
-	ID            uint
-	LastRequested int64
-	Artist, Title string
+	ID            int           `json:"id"`
+	Requests      int           `json:"requests"`
+	LastRequested int64         `json:"lastrequested"`
+	LastPlayed    int64         `json:"lastplayed"`
+	RequestDelay  time.Duration `json:"-"`
+	Artist        string        `json:"artist"`
+	Title         string        `json:"title"`
+}
+
+// Calculate request delay and requestability for a song
+func (s *SearchSong) CalculateRequestDelay() {
+	if s.Requests > 30 {
+		s.Requests = 30
+	}
+
+	var dur float64
+	if s.Requests >= 0 && s.Requests <= 7 {
+		dur = -11057*math.Pow(float64(s.Requests), 2) +
+			172954*float64(s.Requests) + 81720
+	} else {
+		dur = 599955*math.Exp(0.0372*float64(s.Requests)) + 0.5
+	}
+	s.RequestDelay = time.Duration(time.Duration(dur) * time.Second)
+}
+
+// Return, if song can be requested
+func (s *SearchSong) CanRequest() bool {
+	s.CalculateRequestDelay()
+	return time.Now().Unix()-s.LastPlayed > int64(s.RequestDelay/time.Second)
 }

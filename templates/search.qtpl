@@ -1,30 +1,39 @@
+{% import "github.com/bakape/r-a-d.io/common" %}
 
 Render search page
-{% func Search(query string, buf []byte) %}{% stripspace %}
+{% func Search(query string, page, pages int, songs []common.SearchSong) %}{% stripspace %}
 	<!DOCTYPE html>
 	<html>
 		{%= head("R/a/dio") %}
 		<body>
 			{%= topBanner(query) %}
-			{% comment %} TODO: Make responsive {% endcomment %}
-			<table>
-				<tr>
-					<th>Artist</th>
-					<th>Title</th>
-					<th>Request</th>
-				</tr>
-				<tr>
-					<td>Artist here</td>
-					<td>Title here</td>
-					<td>
-						<form act="/request/ID_HERE" method="post">
-							{% comment %} Disable, if can't request {% endcomment %}
-							<input type="submit" value="Request">
+			<div class="flex-column margin">
+				<header class=flex-row>
+					<b>Artist</b>
+					<b>Title</b>
+					<b>Request</b>
+				</header>
+				<hr>
+				{% for i, s := range songs %}
+					{% if i != 0 %}
+						<hr>
+					{% endif %}
+					<div class=flex-row>
+						<span>s.Artist</span>
+						<span>s.Title</span>
+						{% code var text string %}
+						{% code can := s.CanRequest() %}
+						{% if can %}
+							{% code text = "Request" %}
+						{% else %}
+							{% code text = "in " + s.RequestDelay.String() %}
+						{% endif %}
+						<form act="/request/{%d s.ID %}" method=post>
+							<input type=submit value="{%s= text %}"{% if !can %}{% space %}disabled{% endif %}>
 						</form>
-					</td>
-				</tr>
-			</table>
-			{%z= buf %}
+					</div>
+				{% endfor %}
+			</div>
 		</body>
 	</html>
 {% endstripspace %}{% endfunc %}

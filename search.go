@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/bakape/r-a-d.io/common"
 	"github.com/bakape/r-a-d.io/templates"
 	"gopkg.in/olivere/elastic.v5"
 )
@@ -22,11 +23,11 @@ func initElastic() (err error) {
 
 // Query Elastic Search for matching songs
 func querySearch(query string, page int, ctx context.Context) (
-	buf []byte, err error,
+	songs []common.SearchSong, pages int, err error,
 ) {
 	// Testing without ES running
 	if elasticClient == nil {
-		return []byte("TEST: no search possible"), nil
+		return
 	}
 
 	q := elastic.NewQueryStringQuery(query).
@@ -52,7 +53,24 @@ func querySearch(query string, page int, ctx context.Context) (
 	if err != nil {
 		return
 	}
-	buf, err = json.Marshal(res)
+
+	pages = int(res.Hits.TotalHits) / 20
+	if pages == 0 {
+		pages = 1
+	}
+
+	if res.Hits.TotalHits > 0 {
+		songs = make([]common.SearchSong, 0, len(res.Hits.Hits))
+		for _, hit := range res.Hits.Hits {
+			var song common.SearchSong
+			err = json.Unmarshal(*hit.Source, &song)
+			if err != nil {
+				return
+			}
+			songs = append(songs, song)
+		}
+	}
+
 	return
 }
 
@@ -61,11 +79,11 @@ func serveSearch(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 	page, _ := strconv.ParseUint(q.Get("page"), 10, 64)
 	query := q.Get("q")
-	buf, err := querySearch(query, int(page), r.Context())
+	songs, pages, err := querySearch(query, int(page), r.Context())
 	if err != nil {
 		text500(w, r, err)
 		return
 	}
 
-	w.Write([]byte(templates.Search(query, buf)))
+	w.Write([]byte(templates.Search(query, int(page), pages, songs)))
 }
