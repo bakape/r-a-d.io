@@ -23,3 +23,10 @@ type Song struct {
 	Timestamp int64  `json:"timestamp"`
 	Meta      string `json:"meta"`
 }
+
+// Song returned by Elastic Search
+type SearchSong struct {
+	ID            uint
+	LastRequested int64
+	Artist, Title string
+}
