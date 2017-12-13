@@ -7,12 +7,12 @@ Render search page
 		{%= head("R/a/dio") %}
 		<body>
 			{%= topBanner(query) %}
-			<div class="flex-column margin">
-				<header class=flex-row>
+			<section id="main" class="flex-column top-margin">
+				<div class=flex-row>
 					<b>Artist</b>
 					<b>Title</b>
 					<b>Request</b>
-				</header>
+				</div>
 				<hr>
 				{% for i, s := range songs %}
 					{% if i != 0 %}
@@ -26,14 +26,14 @@ Render search page
 						{% if can %}
 							{% code text = "Request" %}
 						{% else %}
-							{% code text = "Requestable " + formatRelativeTime(s.RequestDelay, true) %}
+							{% code text = formatRelativeTime(s.RequestDelay, true) %}
 						{% endif %}
 						<form act="/request/{%d s.ID %}" method=post>
 							<input type=submit value="{%s= text %}"{% if !can %}{% space %}disabled{% endif %}>
 						</form>
 					</div>
 				{% endfor %}
-			</div>
+			</section>
 		</body>
 	</html>
 {% endstripspace %}{% endfunc %}

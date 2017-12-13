@@ -51,9 +51,10 @@ func formatRelativeTime(t int64, isFuture bool) string {
 	if t < 60 {
 		return format("min")
 	}
+	t /= 60
 	if t < 24 {
 		return format("h")
 	}
 	t /= 24
-	return format("day")
+	return format("d")
 }
