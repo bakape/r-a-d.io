@@ -32,7 +32,9 @@ func renderTime(t int64) string {
 }
 
 // Formats "56 minutes ago" or "in 56 minutes" like relative time text
-func formatRelativeTime(t int64, isFuture bool) string {
+func formatRelativeTime(time int64, isFuture bool) string {
+	t := float64(time)
+
 	if t < 60 {
 		if isFuture {
 			return "soon™"
@@ -42,9 +44,9 @@ func formatRelativeTime(t int64, isFuture bool) string {
 
 	format := func(word string) string {
 		if isFuture {
-			return fmt.Sprintf("in %d %s", t, word)
+			return fmt.Sprintf("in %d %s", int64(t), word)
 		}
-		return fmt.Sprintf("%d %s ago", t, word)
+		return fmt.Sprintf("%d %s ago", int64(t), word)
 	}
 
 	t /= 60
