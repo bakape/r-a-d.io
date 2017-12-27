@@ -41,6 +41,8 @@ type SearchSong struct {
 }
 
 // Calculate request delay and requestability for a song
+// FIXME: For some reason this returns incorrect results on some songs, but not
+// others. Need to investigate.
 func (s *SearchSong) CalculateRequestDelay() {
 	if s.Requests > 30 {
 		s.Requests = 30
