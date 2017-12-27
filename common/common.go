@@ -47,13 +47,13 @@ func (s *SearchSong) CalculateRequestDelay() {
 	}
 
 	var dur float64
+	req := float64(s.Requests)
 	if s.Requests >= 0 && s.Requests <= 7 {
-		dur = -11057*math.Pow(float64(s.Requests), 2) +
-			172954*float64(s.Requests) + 81720
+		dur = -11057*req*req + 172954*req + 81720
 	} else {
-		dur = 599955*math.Exp(0.0372*float64(s.Requests)) + 0.5
+		dur = 599955*math.Exp(0.0372*req) + 0.5
 	}
-	s.RequestDelay = int64(dur)
+	s.RequestDelay = int64(dur) / 2
 }
 
 // Return, if song can be requested
